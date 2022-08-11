@@ -1,0 +1,7 @@
+<h3>Create an event</h3>
+<form method="POST" action="/events">
+  <label>Event Name: </label><input name="event[name]"> </input><br><br>
+  <label>City: </label><input name="city[name]"> </input><br><br>
+  <label>Event Time: </label> <input type="time" id="appt" name="event[time]" min="00:00" max="24:00" required><br>
+  <input type="submit" value="Create">
+</form>
