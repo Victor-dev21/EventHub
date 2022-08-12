@@ -1,8 +1,9 @@
 <h1>Welcome <%=@user.name%></h1><br>
 <h4>Events</h4>
 <%@user.events.each do |event|%>
-<%=event.event_name%> <%=event.time%><br>
+<a href="/events/<%=event.id%>"><%=event.event_name%></a> <%=event.time%><br>
 <%end%>
 <br>
 <a href="logout">logout</a>
 <a href="/events/new">Add Event</a>
+<a href="/events">View All Events</a>

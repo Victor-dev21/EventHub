@@ -1,0 +1,9 @@
+<h3>Edit the event</h3>
+<form method="post" action="/events/<%=@event.id%>">
+  	<input type="hidden" name="_method" value="patch">
+  <label>Event Name: </label><input name="event[name]" value="<%=@event.event_name%>"> </input><br><br>
+  <label>Location: </label><input name="location[name]" value="<%=@event.location.locale%>"> </input><br><br>
+  <label>Event Time: </label> <input value="<%=@event.time%>"type="time" id="time" name="event[time]" min="00:00" max="24:00" required><br>
+  <label>Event Date: </label> <input value="<%=@event.date%>" type="date" id="date" name="event[date]" required><br>
+  <input type="submit" value="Update">
+</form>

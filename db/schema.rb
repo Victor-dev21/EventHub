@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220811171654) do
-
-  create_table "cities", force: :cascade do |t|
-    t.string "city_name"
-  end
+ActiveRecord::Schema.define(version: 20220812180055) do
 
   create_table "events", force: :cascade do |t|
     t.string "event_name"
     t.integer "user_id"
-    t.integer "city_id"
+    t.integer "location_id"
     t.string "time"
+    t.string "date"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "locale"
   end
 
   create_table "users", force: :cascade do |t|

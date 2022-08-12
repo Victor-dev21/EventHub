@@ -2,5 +2,5 @@ require_relative './config/environment'
 use Rack::MethodOverride
 use UsersController
 use EventsController
-use CitiesController
+use LocationsController
 run ApplicationController

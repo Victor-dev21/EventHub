@@ -1,0 +1,9 @@
+
+<h1>Upcoming events</h1>
+<%@events.each do |event|%>
+<h1><%=event.event_name%></h1>
+<h2><%=event.location.locale%></h2>
+<h5><%=event.time%></h5>
+<h5><%=event.date%></h5>
+<%end%>
+<a href="/homepage">Homepage</a>
