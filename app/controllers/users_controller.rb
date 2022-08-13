@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
 
   get '/' do
-    erb :'users/index'
+    erb :'users/index', :layout => false
   end
 
   get '/signup' do
-    erb :'users/signup'
+    erb :'users/signup', :layout => false
   end
 
   post '/signup' do
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    erb :'users/login'
+    erb :'users/login', :layout => false
   end
 
   post '/login' do
@@ -36,15 +36,16 @@ class UsersController < ApplicationController
 
   get '/homepage' do
     @user = User.find(session[:user_id])
-    puts @user.events
+    #redirect to "#{Helper.redirect_if_not_logged_in(session)}"
     erb :'users/homepage'
   end
 
   get '/user/error' do
-    erb :'users/error'
+    erb :'users/error', :layout => false
   end
 
   get '/logout' do
+    redirect to "#{Helper.redirect_if_not_logged_in(session)}"
     session.clear
     redirect to '/'
   end

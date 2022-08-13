@@ -1,9 +1,10 @@
-require_relative '../helpers/helper'
+
 class EventsController < ApplicationController
 
   get '/events' do
     #shows all of the users events
     #@user = User.find(session[:user_id]).events
+    redirect_if_not_logged_in
     @events = Event.all
     @user = User.find(session[:user_id])
     erb :'/events/index'
@@ -11,13 +12,9 @@ class EventsController < ApplicationController
 
 
   get '/events/new' do
-    if !Helper.logged_in?(session)
-      puts "here"
-      redirect to '/user/error'
-    else
-      @user = User.find(session[:user_id])
-      erb :'/events/new'
-    end
+    #redirect to "#{Helper.redirect_if_not_logged_in(session)}"
+    @user = User.find(session[:user_id])
+    erb :'/events/new'
   end
 
   post '/events' do
@@ -32,11 +29,13 @@ class EventsController < ApplicationController
   end
 
   get '/events/:id' do
+    #redirect to "#{Helper.redirect_if_not_logged_in(session)}"
     @event = Event.find(params[:id])
     erb :'events/show'
   end
 
   get '/events/:id/edit' do
+    #redirect to "#{Helper.redirect_if_not_logged_in(session)}"
     @event = Event.find(params[:id])
     erb :'events/edit'
   end

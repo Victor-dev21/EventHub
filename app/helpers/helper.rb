@@ -3,7 +3,7 @@ class Helper
 
   def self.redirect_if_not_logged_in(session)
     if !self.logged_in?(session)
-      
+      redirect "/user/error"
     end
   end
 
