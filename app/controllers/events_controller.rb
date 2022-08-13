@@ -5,6 +5,7 @@ class EventsController < ApplicationController
     #shows all of the users events
     #@user = User.find(session[:user_id]).events
     @events = Event.all
+    @user = User.find(session[:user_id])
     erb :'/events/index'
   end
 
@@ -22,7 +23,7 @@ class EventsController < ApplicationController
   post '/events' do
     puts params
     @event = Event.create(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
-    @location = Location.create(locale: params[:location][:name])
+    @location = Location.find_or_create_by(locale: params[:location][:name])
     @event.location = @location
     @user = User.find(session[:user_id])
     @user.events << @event
@@ -48,10 +49,18 @@ class EventsController < ApplicationController
     @event.save
     redirect "/events/#{@event.id}"
   end
+  ##adds an event to the users list
+  post '/events/:id' do
+    @user = User.find(session[:user_id])
+    @user.events << Event.find(params[:id])
+    @user.save
+    redirect '/homepage'
+  end
+
 
   delete '/events/:id' do
     @event = Event.find(params[:id])
-    @event.location.destroy
+    Location.find_by(locale: @event.location.locale).destroy
     @event.destroy
     redirect '/homepage'
   end

@@ -1,0 +1,12 @@
+<h1><%=@location.locale%></h1>
+<%@location.events.each do |event|%>
+<%if !@user.events.include? event%>
+  <form action="/events/<%=event.id%>" method="post">
+    <input type="submit" name="add" value="add">
+  </form>
+<%end%>
+  <h3>Event: <%=event.event_name%></h3>
+  <h5>Time: <%=event.time%></h5>
+  <h5>When: <%=event.date%></h5>
+  <hr>
+<%end%>

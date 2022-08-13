@@ -1,5 +1,5 @@
 <h1><%=@event.event_name%></h1>
- <h2> Location: <%=@event.location.locale%></h2>
+ <h2> Location: <a href="/locations/<%=@event.location.id%>"><%=@event.location.locale%></a></h2>
 <h5>Time: <%=@event.time%></h5>
 <h5>When: <%=@event.date%></h5>
 <a href="/homepage">Homepage</a>
@@ -7,4 +7,4 @@
 <form method="post" action="/events/<%=@event.id%>">
   <input type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete">
-  </form>
+</form>
