@@ -1,18 +1,1 @@
-<a href="/logout">logout</a>
-<a href="/events/new">Add Event</a>
-<a href="/events">View All Events</a>
-<a href="/homepage">Home</a>
-
 <h1>Upcoming events</h1>
-<%@events.each do |event|%>
-<h1>Event: <%=event.event_name%></h1>
-<h3>Where: <%=event.location.locale%></h3>
-<h5>Time: <%=event.time%></h5>
-<h5>When: <%=event.date%></h5>
-<%if !@user.events.include? event%>
-  <form action="/events/<%=event.id%>" method="post">
-    <input type="submit" name="add" value="add">
-  </form>
-<%end%>
-<hr>
-<%end%>

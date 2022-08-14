@@ -5,11 +5,20 @@ class LocationsController < ApplicationController
     @locations = Location.all
     erb :'locations/index', :layout => false
   end
-  
+
   get '/locations/:id' do
     redirect_if_not_logged_in
     @location = Location.find(params[:id])
+    @events = @location.events
     @user = User.find(session[:user_id])
-    erb :'/locations/show', :layout => false
+    @categories = @location.categories
+    erb :'/locations/show', layout: :'layouts/events/events_list'
+  end
+
+  get '/locations/:id/:category_name' do
+    @location = Location.find(params[:id])
+    @category = @location.categories
+    @events = Event.all.where(location_id: params[:id],category_id: Category.find_by(name: params[:category_name]).id)
+    erb :'locations/events__by_category', layout: :'layouts/events/events_list'
   end
 end

@@ -1,9 +1,2 @@
 <h1>Welcome <%=@user.name%></h1>
 <i><h2>My events</h2></i>
-<%@user.events.each do |event|%>
-<h1>Event: <a href="/events/<%=event.id%>"><%=event.event_name%></a></h1>
-<h3>Where: <a href="/locations/<%=event.location.id%>"><%=event.location.locale%></a></h3>
-<h5>Time: <%=event.time%></h5>
-<h5>When: <%=event.date%></h5>
-<%end%>
-<br>

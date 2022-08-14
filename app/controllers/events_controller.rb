@@ -5,7 +5,7 @@ class EventsController < ApplicationController
     redirect_if_not_logged_in
     @events = Event.all
     @user = User.find(session[:user_id])
-    erb :'/events/index', :layout => false
+    erb :'/events/index', layout: :'layouts/events/events_list'
   end
 
 
@@ -17,11 +17,14 @@ class EventsController < ApplicationController
   end
 
   post '/events' do
-    puts params
     @event = Event.create(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
     @location = Location.find_or_create_by(locale: params[:location][:name])
     @event.location = @location
-    @event.category = Category.find(params[:event][:category_id])
+    if !params[:event][:category].empty?
+      @event.category = Category.find_or_create_by(name: params[:event][:category])
+    else
+      @event.category = Category.find(params[:event][:category_id])
+    end
     @user = User.find(session[:user_id])
     @user.events << @event
     @user.save

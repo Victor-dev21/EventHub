@@ -8,7 +8,7 @@
  <h2> Location: <a href="/locations/<%=@event.location.id%>"><%=@event.location.locale%></a></h2>
 <h5>Time: <%=@event.time%></h5>
 <h5>When: <%=@event.date%></h5>
-
+<h5>Category: <a href="/categories/<%=@event.category.id%>"><%=@event.category.name%></a></h5>
 <form method="post" action="/events/<%=@event.id%>">
   <input type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete">

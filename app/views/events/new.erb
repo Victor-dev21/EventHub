@@ -7,5 +7,7 @@
   <% @categories.each do |category| %>
    <input type="radio" name="event[category_id]" id="<%= category.id %>" value="<%= category.id %>"><%= category.name %></input><br>
  <% end %>
+  Or add a new <br>
+  Category: <input type="text" name="event[category]" id ="category_name">
   <input type="submit" value="Create">
 </form>
