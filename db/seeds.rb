@@ -7,3 +7,7 @@
 #Location.create(locale:"Dallas")
 #Location.create(locale:"MSG")
 #Location.create(locale:"Barcalys Center")
+Category.create(name: "Soccer")
+Category.create(name: "Concert")
+Category.create(name: "Basketball")
+Category.create(name: "Baseball")

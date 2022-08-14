@@ -1,15 +1,15 @@
 class LocationsController < ApplicationController
 
   get '/locations' do
-    redirect to "#{Helper.redirect_if_not_logged_in(session)}"
+    redirect_if_not_logged_in
     @locations = Location.all
-    erb :'locations/index'
+    erb :'locations/index', :layout => false
   end
-
+  
   get '/locations/:id' do
-    redirect to "#{Helper.redirect_if_not_logged_in(session)}"
+    redirect_if_not_logged_in
     @location = Location.find(params[:id])
     @user = User.find(session[:user_id])
-    erb :'/locations/show'
+    erb :'/locations/show', :layout => false
   end
 end

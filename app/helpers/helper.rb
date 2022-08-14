@@ -2,7 +2,7 @@ class Helper
 
 
   def self.redirect_if_not_logged_in(session)
-    if !self.logged_in?(session)
+    if !self.logged_in?(session) && User.find_by(id: session[:user_id]).nil?
       redirect "/user/error"
     end
   end

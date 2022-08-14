@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 
   post '/signup' do
     @user = User.new(name: params[:name],username: params[:username],password: params[:password])
-    p params
     if(@user.save)
       redirect to '/login'
     else
@@ -35,8 +34,8 @@ class UsersController < ApplicationController
   end
 
   get '/homepage' do
+    redirect_if_not_logged_in
     @user = User.find(session[:user_id])
-    #redirect to "#{Helper.redirect_if_not_logged_in(session)}"
     erb :'users/homepage'
   end
 
@@ -45,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    redirect to "#{Helper.redirect_if_not_logged_in(session)}"
+    redirect_if_not_logged_in
     session.clear
     redirect to '/'
   end
