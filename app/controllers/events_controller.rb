@@ -1,4 +1,4 @@
-
+require 'pry'
 class EventsController < ApplicationController
 
   get '/events' do
@@ -17,17 +17,44 @@ class EventsController < ApplicationController
   end
 
   post '/events' do
-    @event = Event.create(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
+    puts params
+    @user = current_user(session)
+
+    @event = Event.new(params[:event])
+
+    @category = Category.find(params[:category_id])
     @location = Location.find_or_create_by(locale: params[:location][:name])
-    @event.location = @location
-    if !params[:event][:category].empty?
-      @event.category = Category.find_or_create_by(name: params[:event][:category])
+    if(@location.categories.include?(@category) && @category.locations.include?(@location))
+      puts "In here"
+      @user.events << @event
+      @event = @user.events.find(@event.id)
+      p @event
+      #binding.pry
+      #@event.category = @location.categories.find{|c| c == @category}
+      #@event.location = @category.locations.find{|l| l == @location}
+      @category = @location.categories.find{|c| c == @category}
+      @location = @category.locations.find{|l| l == @location}
+      #@event.update(category: @category)
+      #@event.update(location: @location)
+      #binding.pry
+      #@event.save
+      @user.events.find(@event.id).update(category: @category, location: @location)
+      @user.save
+      #@event.save
+      #binding.pry
     else
-      @event.category = Category.find(params[:event][:category_id])
+      puts "After the failed search"
+      @user.events << @event
+      @event = @user.events.find(@event.id)
+      @user.events.find(@event.id).update(category: @category, location: @location)
+      #@event.location = @location
+      #@event.category = @category
+      #@location.categories << @category
+      #@category.locations << @location
+
+      @user.save
     end
-    @user = User.find(session[:user_id])
-    @user.events << @event
-    @user.save
+
     redirect to "/events/#{@event.id}"
   end
 

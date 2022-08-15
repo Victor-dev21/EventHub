@@ -1,13 +1,11 @@
 <h3>Create an event</h3>
 <form method="POST" action="/events">
-  <label>Event Name: </label><input name="event[name]"> </input><br><br>
+  <label>Event Name: </label><input name="event[event_name]"> </input><br><br>
   <label>Location: </label><input name="location[name]"> </input><br><br>
   <label>Event Time: </label> <input type="time" id="time" name="event[time]" min="00:00" max="24:00" required><br>
   <label>Event Date: </label> <input type="date" id="date" name="event[date]" required><br>
   <% @categories.each do |category| %>
-   <input type="radio" name="event[category_id]" id="<%= category.id %>" value="<%= category.id %>"><%= category.name %></input><br>
+   <input type="radio" name="category_id" id="<%= category.id %>" value="<%= category.id %>"><%= category.name %></input><br>
  <% end %>
-  Or add a new <br>
-  Category: <input type="text" name="event[category]" id ="category_name">
   <input type="submit" value="Create">
 </form>

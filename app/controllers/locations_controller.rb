@@ -18,7 +18,8 @@ class LocationsController < ApplicationController
   get '/locations/:id/:category_name' do
     @location = Location.find(params[:id])
     @category = @location.categories
+    @user = User.find(session[:user_id])
     @events = Event.all.where(location_id: params[:id],category_id: Category.find_by(name: params[:category_name]).id)
-    erb :'locations/events__by_category', layout: :'layouts/events/events_list'
+    erb :'locations/events_by_category', layout: :'layouts/events/events_list'
   end
 end

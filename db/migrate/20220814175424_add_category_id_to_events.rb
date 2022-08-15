@@ -1,5 +1,5 @@
 class AddCategoryIdToEvents < ActiveRecord::Migration[5.1]
   def change
-    add_column :events, :category_id, :string
+    add_column :events, :category_id, :integer
   end
 end

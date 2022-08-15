@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20220814175424) do
     t.integer "location_id"
     t.string "time"
     t.string "date"
-    t.string "category_id"
+    t.integer "category_id"
   end
 
   create_table "locations", force: :cascade do |t|
