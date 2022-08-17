@@ -6,9 +6,9 @@
   <label>Event Time: </label> <input value="<%=@event.time%>"type="time" id="time" name="event[time]" min="00:00" max="24:00" required><br>
   <label>Event Date: </label> <input value="<%=@event.date%>" type="date" id="date" name="event[date]" required><br>
   <% @categories.each do |category| %>
-   <input type="radio" name="category[category_id]" id="<%= category.id %>" value="<%=category.id %>" <%="checked" if category.id == @event.category_id%>><%= category.name %></input><br>
+   <input type="radio" name="category_id" id="<%= category.id %>" value="<%=category.id%>" <%="checked" if category.id == @event.category_id%>><%= category.name %></input><br>
    <% end %>
-   public: <input type="checkbox" name="event[public]" <%="checked" if @event.public%>> <br>
+   public: <input type="checkbox" name="public" <%="checked" if @event.public%>> <br>
    Or create a new Category: <input type="text" name="category_name">
   <input type="submit" value="Update">
 </form>

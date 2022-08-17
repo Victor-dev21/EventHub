@@ -4,11 +4,9 @@ class ApplicationController <Sinatra::Base
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
-    
+
     set :session_secret, "EventManager"
   end
-
-
 
   helpers do
     def redirect_if_not_logged_in
