@@ -9,10 +9,15 @@
 <h5>Time: <%=@event.time%></h5>
 <h5>When: <%=@event.date%></h5>
 <h5>Category: <a href="/categories/<%=@event.category.id%>"><%=@event.category.name%></a></h5>
+
+<%if @can_delete%>
 <form method="post" action="/events/<%=@event.id%>">
   <input type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete">
 </form>
+<%end%>
+<%if @can_edit%>
 <form method="get" action="/events/<%=@event.id%>/edit">
     <input type="submit" value="Edit">
 </form>
+<%end%>

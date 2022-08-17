@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220814175424) do
+ActiveRecord::Schema.define(version: 20220816223853) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -23,10 +23,17 @@ ActiveRecord::Schema.define(version: 20220814175424) do
     t.string "time"
     t.string "date"
     t.integer "category_id"
+    t.boolean "public", default: false
+    t.integer "creator"
   end
 
   create_table "locations", force: :cascade do |t|
     t.string "locale"
+  end
+
+  create_table "user_events", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "event_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,5 +1,7 @@
+require 'rack-flash'
 class UsersController < ApplicationController
-
+  enable :sessions
+  use Rack::Flash
   get '/' do
     erb :'users/index', :layout => false
   end
@@ -13,6 +15,7 @@ class UsersController < ApplicationController
     if(@user.save)
       redirect to '/login'
     else
+      flash[:message] = "Username already exists"
       redirect to '/signup'
     end
   end
@@ -34,7 +37,7 @@ class UsersController < ApplicationController
 
   get '/homepage' do
     redirect_if_not_logged_in
-    @user = User.find(session[:user_id])
+    @user = current_user(session)
     @events = @user.events
     erb :'users/homepage', layout: :'layouts/events/events_list'
   end

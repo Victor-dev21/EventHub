@@ -3,9 +3,9 @@ class EventsController < ApplicationController
 
   get '/events' do
     redirect_if_not_logged_in
-    @events = Event.all
+    @events = Event.all.filter{|event| event.public}
     @user = User.find(session[:user_id])
-    erb :'/events/index', layout: :'layouts/events/events_list'
+    erb :'/events/index'
   end
 
 
@@ -21,12 +21,15 @@ class EventsController < ApplicationController
     @user = current_user(session)
 
     @event = Event.new(params[:event])
-
-    @category = Category.find(params[:category_id])
+    UserEvent.new(user_id:@user.id,event_id: @event.id)
+    #@user = current_user(session)
+    #@event = Event.new(event_name: params[:event][:name],time: params[:event][:time],date:params[:event][:date])
+    p @event
     @location = Location.find_or_create_by(locale: params[:location][:name])
-    if(@location.categories.include?(@category) && @category.locations.include?(@location))
+    if(@location.categories.include?(@category) && @category.locations.include?(@location) && params[:category_name].empty?)
       puts "In here"
-      @user.events << @event
+      @category = Category.find(params[:category_id])
+      @user.events<< @event
       @event = @user.events.find(@event.id)
       p @event
       #binding.pry
@@ -42,8 +45,16 @@ class EventsController < ApplicationController
       @user.save
       #@event.save
       #binding.pry
+    elsif !params[:category_name].empty?
+      @category = Category.create(name: params[:category_name])
+      @user.events << @event
+      @event = @user.events.find(@event.id)
+      @user.events.find(@event.id).update(category: @category, location: @location)
+      @user.save
+
     else
       puts "After the failed search"
+      @category = Category.find(params[:category_id])
       @user.events << @event
       @event = @user.events.find(@event.id)
       @user.events.find(@event.id).update(category: @category, location: @location)
@@ -61,25 +72,42 @@ class EventsController < ApplicationController
   get '/events/:id' do
     redirect_if_not_logged_in
     @event = Event.find(params[:id])
+    @user = current_user(session)
+    @can_edit = false
+    @can_delete = false
+    if(@event.creator == @user.id)
+      @can_edit = true
+    end
+    if(@event.creator == @user.id)
+      @can_delete = true
+    end
     erb :'events/show', layout: false
   end
 
   get '/events/:id/edit' do
     redirect_if_not_logged_in
     @event = Event.find(params[:id])
+    @categories = Category.all
     erb :'events/edit'
   end
 
   patch '/events/:id' do
     @event = Event.find(params[:id])
-    @event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
-    @event.location.update(locale: params[:location][:name])
+    if(!params[:category_name].empty?)
+      @category = Category.find_or_create_by(name:params[:category_name])
+      @event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date],category_id: @category.id,public: params[:event][:public])
+    else
+      @event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
+      @event.location.update(locale: params[:location][:name])
+    end
+    #@event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
+    #@event.location.update(locale: params[:location][:name])
     @event.save
     redirect "/events/#{@event.id}"
   end
 
   post '/events/:id' do
-    @user = User.find(session[:user_id])
+    @user = current_user(session)
     @user.events << Event.find(params[:id])
     @user.save
     redirect '/homepage'
@@ -87,8 +115,19 @@ class EventsController < ApplicationController
 
   delete '/events/:id' do
     @event = Event.find(params[:id])
+    @user = current_user(session)
+    if(!(@event.creator == @user.id))
+
+      @user.events.delete(@event.id)
+      @user.save
+    elsif @event.creator == @user.id
+      puts " here"
+      @event.destroy
+    end
+    puts "None worked"
+    #(@user.events.contains)
     #Location.find_by(locale: @event.location.locale).destroy
-    @event.destroy
+
     redirect '/homepage'
   end
 end
