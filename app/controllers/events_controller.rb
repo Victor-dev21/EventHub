@@ -21,10 +21,8 @@ class EventsController < ApplicationController
     @user = current_user(session)
     @event = Event.new(params[:event])
     UserEvent.new(user_id:@user.id,event_id: @event.id)
-    p @event
     @location = Location.find_or_create_by(locale: params[:location][:name])
     if(@location.categories.include?(@category) && @category.locations.include?(@location) && params[:category_name].empty?)
-      puts "In here"
       @category = Category.find(params[:category_id])
       @user.events<< @event
       @event = @user.events.find(@event.id)
