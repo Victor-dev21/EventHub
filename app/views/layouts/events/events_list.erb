@@ -2,7 +2,8 @@
 <a href="/events/new">Add Event</a>
 <a href="/categories">View by category</a>
 <a href="/events">View All events</a>
-<a href="/homepage">Home</a>
+<a href="/homepage">Homepage</a>
+
 <%=yield%>
 <%@events.each do |event|%>
 <h1>Event: <a href="/events/<%=event.id%>"><%=event.event_name%></a></h1>

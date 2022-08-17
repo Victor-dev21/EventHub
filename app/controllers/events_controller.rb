@@ -31,7 +31,6 @@ class EventsController < ApplicationController
       @category = Category.find(params[:category_id])
       @user.events<< @event
       @event = @user.events.find(@event.id)
-      p @event
       #binding.pry
       #@event.category = @location.categories.find{|c| c == @category}
       #@event.location = @category.locations.find{|l| l == @location}
@@ -62,6 +61,7 @@ class EventsController < ApplicationController
       #@event.category = @category
       #@location.categories << @category
       #@category.locations << @location
+      #@event.user = @user
 
       @user.save
     end
@@ -93,12 +93,18 @@ class EventsController < ApplicationController
 
   patch '/events/:id' do
     @event = Event.find(params[:id])
+    @location = Location.find_or_create_by(locale: params[:location][:name])
     if(!params[:category_name].empty?)
+      puts "New category"
       @category = Category.find_or_create_by(name:params[:category_name])
-      @event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date],category_id: @category.id,public: params[:event][:public])
+
+      #@event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date],category_id: @category.id,public: params[:event][:public])
+      @event.update(params[:event])
+      @event.update(category:@category)
+      @event.update(location: @location)
     else
-      @event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
-      @event.location.update(locale: params[:location][:name])
+      @event.update(params[:event])
+      @event.update(location: @location)
     end
     #@event.update(event_name:params[:event][:name], time:params[:event][:time],date:params[:event][:date])
     #@event.location.update(locale: params[:location][:name])
