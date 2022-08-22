@@ -1,5 +1,10 @@
 <h1>Sign Up</h1>
-<% if flash.has?(:message) %> <%= flash[:message] %> <% end %>
+<% if flash.has?(:message) %>
+  <%flash[:message].each do |key,value|%>
+  <%="#{key}: #{value}"%><br>
+  <%end%>
+<%end%>
+
 <br>
 <form action="/signup" method="POST">
   <label>Name: </label><input type="text" name="name" id="name"> </input><br><br>

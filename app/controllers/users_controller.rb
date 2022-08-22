@@ -15,8 +15,8 @@ class UsersController < ApplicationController
     if(@user.save)
       redirect to '/login'
     else
-      flash[:message] = "Username already exists"
-      redirect to '/signup'
+      flash[:message] = @user.errors
+      redirect '/signup'
     end
   end
 

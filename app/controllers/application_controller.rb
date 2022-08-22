@@ -11,7 +11,6 @@ class ApplicationController <Sinatra::Base
   helpers do
     def redirect_if_not_logged_in
       if !logged_in? || User.find_by(id: session[:user_id]).nil?
-        puts "Here"
         redirect "/user/error"
       end
     end

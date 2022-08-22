@@ -17,7 +17,6 @@ class EventsController < ApplicationController
   end
 
   post '/events' do
-    puts params
     @user = current_user(session)
     @event = Event.new(params[:event])
     UserEvent.new(user_id:@user.id,event_id: @event.id)
@@ -37,7 +36,6 @@ class EventsController < ApplicationController
       @user.events.find(@event.id).update(category: @category, location: @location)
       @user.save
     else
-      puts "After the failed search"
       @category = Category.find(params[:category_id])
       @user.events << @event
       @event = @user.events.find(@event.id)

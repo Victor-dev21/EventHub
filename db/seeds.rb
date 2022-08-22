@@ -7,12 +7,9 @@
 #Location.create(locale:"Dallas")
 #Location.create(locale:"MSG")
 #Location.create(locale:"Barcalys Center")
-Location.all.each do |l|
-  l.destroy
-end
-Event.all.each do |l|
-  l.destroy
-end
-User.all.each do |l|
-  l.destroy
-end
+Category.create(name: "Music")
+Category.create(name: "Soccer")
+Category.create(name: "Baseball")
+Category.create(name: "Tennis")
+Category.create(name: "Basketball")
+Category.create(name: "Football")
