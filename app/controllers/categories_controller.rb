@@ -9,6 +9,6 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
     @events = @category.events
     @user = User.find(session[:user_id])
-    erb :'categories/show', layout: :'layouts/events/events_list'
+    erb :'categories/show', layout: false
   end
 end

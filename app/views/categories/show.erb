@@ -1,1 +1,31 @@
+<a href="/logout">logout</a>
+<a href="/events/new">Add Event</a>
+<a href="/categories">View by category</a>
+<a href="/events">View All events</a>
+<a href="/homepage">Homepage</a>
+
 <h1><%=@category.name%></h1>
+<%@events.each do |event|%>
+<%if event.public || @user.events.include?(event)%>
+
+<h1>Event: <a href="/events/<%=event.id%>"><%=event.event_name%></a></h1>
+<h3>Where: <a href="/locations/<%=event.location.id%>"><%=event.location.locale%></a></h3>
+<h5>Category: <a href="/categories/<%=event.category.id%>"><%=event.category.name%></a></h5>
+<h5>Time: <%=event.time%></h5>
+<h5>When: <%=event.date%></h5>
+<%if !@user.events.include? event%>
+  <form action="/events/<%=event.id%>" method="post">
+    <input type="submit" name="add" value="add">
+  </form>
+  <%elsif @user.events.include? event && @user.id == event.creator%>
+  <form method="post" action="/events/<%=event.id%>">
+    <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete">
+  </form>
+
+<%end%>
+<hr>
+<%end%>
+
+
+<%end%>
